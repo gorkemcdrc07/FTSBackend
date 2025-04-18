@@ -1,3 +1,5 @@
+require("dotenv").config(); // 🌟 .env dosyasını localde aktif etmek için
+
 const express = require('express');
 const cors = require('cors');
 const sql = require('mssql');
@@ -24,9 +26,9 @@ app.get('/api/giris', async (req, res) => {
     try {
         await sql.connect(dbConfig);
         const result = await sql.query(`
-      SELECT TOP (1000) [ID], [KullaniciAdi], [Sifre], [Rol], [AdSoyad]
-      FROM TblGiris
-    `);
+            SELECT TOP (1000) [ID], [KullaniciAdi], [Sifre], [Rol], [AdSoyad]
+            FROM TblGiris
+        `);
         res.json(result.recordset);
     } catch (err) {
         console.error('SQL Hatası (GET):', err);
@@ -41,9 +43,9 @@ app.post('/api/giris-kontrol', async (req, res) => {
     try {
         await sql.connect(dbConfig);
         const result = await sql.query(`
-      SELECT * FROM TblGiris
-      WHERE KullaniciAdi = '${kullaniciAdi}' AND Sifre = '${sifre}'
-    `);
+            SELECT * FROM TblGiris
+            WHERE KullaniciAdi = '${kullaniciAdi}' AND Sifre = '${sifre}'
+        `);
 
         if (result.recordset.length > 0) {
             res.json({
